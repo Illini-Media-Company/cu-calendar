@@ -1,0 +1,196 @@
+:root {
+  --bs-font-sans-serif: futura-pt, system-ui, sans-serif;
+  --bs-body-font-weight: 300;
+  --bs-body-color: var(--gray-900);
+
+  font-family: futura-pt, system-ui, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+
+  --main-bg-color: #ffffff;
+  --main-text-color: var(--gray-900);
+  --main-extralight-color: var(--gray-50);
+  --main-lt-gray-color: var(--gray-200);
+  --main-md-gray-color: var(--gray-300);
+  --main-dk-gray-color: var(--gray-900);
+  --main-accent-color: var(--imc-orange-500);
+  --main-accent-color-darkened: var(--imc-orange-600);
+
+  --gray-900: #212121;
+  --gray-800: #424242;
+  --gray-700: #616161;
+  --gray-600: #757575;
+  --gray-500: #9e9e9e;
+  --gray-400: #bdbdbd;
+  --gray-300: #e0e0e0;
+  --gray-200: #eeeeee;
+  --gray-100: #f5f5f5;
+  --gray-50: #fafafa;
+
+  --red-500: #f44336;
+
+  --imc-orange-500: #f99f20;
+  --imc-orange-600: #e68805;
+
+  --green-500: #4caf50;
+
+  --main-border-radius: 1rem;
+
+  --main-box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+  --input-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+
+  /* Compatibility aliases for existing component styles */
+  --imc-ink: var(--main-text-color);
+  --imc-slate: var(--gray-700);
+  --imc-river: var(--main-accent-color-darkened);
+  --imc-sky: var(--gray-100);
+  --imc-sand: var(--gray-50);
+  --imc-gold: var(--main-accent-color);
+  --imc-danger: var(--red-500);
+  --imc-success: var(--green-500);
+  --imc-card: var(--main-bg-color);
+  --imc-shadow: var(--main-box-shadow);
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: futura-pt, system-ui, sans-serif;
+  font-weight: 300;
+  color: var(--main-text-color);
+  background: var(--main-bg-color);
+  min-height: 100vh;
+}
+
+a {
+  color: var(--main-accent-color);
+  overflow-wrap: anywhere;
+}
+
+p {
+  font-family: futura-pt, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 1rem;
+  margin: 0;
+  line-height: 1.45;
+}
+
+h1 {
+  font-family: futura-pt, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 3rem;
+  margin: 0;
+}
+
+h2 {
+  font-family: futura-pt, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 2rem;
+  margin: 0;
+}
+
+h3 {
+  font-family: futura-pt, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+h4 {
+  font-family: futura-pt, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 1rem;
+  margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.button-primary {
+  border: none;
+  border-radius: calc(var(--main-border-radius) + 0.25rem);
+  background-color: var(--main-accent-color);
+  color: var(--main-bg-color);
+  padding: 0.25rem 1rem;
+  transition: background-color 0.15s ease-in-out;
+  box-shadow: var(--input-box-shadow);
+}
+
+.button-primary:hover {
+  background-color: var(--main-accent-color-darkened);
+}
+
+.button-primary:disabled {
+  background-color: var(--main-md-gray-color);
+  color: var(--main-text-color);
+  cursor: not-allowed;
+}
+
+.button-secondary {
+  border: none;
+  border-radius: calc(var(--main-border-radius) + 0.25rem);
+  background-color: var(--main-lt-gray-color);
+  color: var(--main-text-color);
+  padding: 0.25rem 1rem;
+  transition: background-color 0.15s ease-in-out;
+  box-shadow: var(--input-box-shadow);
+}
+
+.button-secondary:hover {
+  background-color: var(--main-md-gray-color);
+}
+
+.button-secondary:disabled {
+  background-color: var(--main-md-gray-color);
+  color: var(--main-text-color);
+  cursor: not-allowed;
+}
+
+.button-bg-color {
+  border: none;
+  border-radius: calc(var(--main-border-radius) + 0.25rem);
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  padding: 0.25rem 1rem;
+  transition: background-color 0.15s ease-in-out;
+  box-shadow: var(--input-box-shadow);
+}
+
+.button-bg-color:hover {
+  background-color: var(--main-md-gray-color);
+}
+
+.button-bg-color:disabled {
+  background-color: var(--main-md-gray-color);
+  color: var(--main-text-color);
+  cursor: not-allowed;
+}
+
+.cu-calendar-marker-container {
+  background: transparent;
+  border: 0;
+}
+
+.cu-calendar-marker-pin {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--main-accent-color);
+  border: 3px solid var(--main-text-color);
+  box-shadow: var(--input-box-shadow);
+}

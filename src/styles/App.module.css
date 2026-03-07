@@ -1,0 +1,417 @@
+.appShell {
+  width: min(1320px, 100% - 2rem);
+  margin: 1.25rem auto 2rem;
+  display: grid;
+  gap: 1rem;
+  color: var(--main-text-color);
+}
+
+.header {
+  background: linear-gradient(120deg, var(--gray-900), var(--gray-700));
+  color: var(--main-bg-color);
+  border-radius: var(--main-border-radius);
+  padding: 1rem 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: var(--main-box-shadow);
+}
+
+.kicker {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.72rem;
+  margin-bottom: 0.3rem;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.imcMark {
+  color: var(--main-accent-color);
+  font-size: 1.55rem;
+}
+
+.subtitle {
+  margin-top: 0.4rem;
+  max-width: 60ch;
+  opacity: 0.92;
+}
+
+.brandLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.4rem;
+  border-radius: var(--main-border-radius);
+  background: var(--main-bg-color);
+  border: 1px solid var(--main-lt-gray-color);
+  box-shadow: var(--input-box-shadow);
+  padding: 0.35rem 0.55rem;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.brandLogo {
+  width: 8rem;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.toolbar {
+  background: var(--main-bg-color);
+  border-radius: var(--main-border-radius);
+  padding: 0.95rem;
+  box-shadow: var(--main-box-shadow);
+  display: grid;
+  gap: 0.9rem;
+}
+
+.toolbarMain {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.controlGroup {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.controlLabel {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: var(--gray-700);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid var(--main-lt-gray-color);
+  border-radius: var(--main-border-radius);
+  padding: 0.55rem 0.65rem;
+  background: var(--main-bg-color);
+  box-shadow: var(--input-box-shadow);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: 2px solid var(--main-accent-color);
+  outline-offset: 1px;
+}
+
+.segmentedControl {
+  display: inline-flex;
+  border: 1px solid var(--main-lt-gray-color);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.segmentButton {
+  border: 0;
+  background: var(--main-bg-color);
+  color: var(--main-text-color);
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+}
+
+.segmentButtonActive {
+  background: var(--main-accent-color);
+  color: var(--main-bg-color);
+}
+
+.bottomActions {
+  background: var(--main-bg-color);
+  border-radius: var(--main-border-radius);
+  padding: 0.85rem 0.95rem;
+  box-shadow: var(--main-box-shadow);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  padding: 0.25rem 1rem;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.primaryButton {
+  border-radius: calc(var(--main-border-radius) + 0.25rem);
+}
+
+.secondaryButton {
+  border-radius: calc(var(--main-border-radius) + 0.25rem);
+}
+
+.statusRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  background: var(--main-extralight-color);
+  border: 1px solid var(--main-lt-gray-color);
+  border-radius: var(--main-border-radius);
+  padding: 0.65rem 0.85rem;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 2.3fr) minmax(280px, 1fr);
+  gap: 1rem;
+}
+
+.mainPanel {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.mapPanel,
+.calendarPanel,
+.detailsPanel,
+.eventList,
+.formSection {
+  background: var(--main-bg-color);
+  border-radius: var(--main-border-radius);
+  box-shadow: var(--main-box-shadow);
+}
+
+.mapPanel,
+.calendarPanel {
+  padding: 0.75rem;
+}
+
+.mapCanvas {
+  width: 100%;
+  min-height: 460px;
+  border-radius: 0.7rem;
+}
+
+.calendarPanel {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.calendarTopBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.calendarCanvas {
+  min-height: 470px;
+}
+
+.eventList {
+  list-style: none;
+  margin: 0;
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.7rem;
+  max-height: 360px;
+  overflow: auto;
+}
+
+.eventCard {
+  border: 1px solid var(--main-lt-gray-color);
+  background: var(--main-bg-color);
+  border-radius: 0.75rem;
+  padding: 0.7rem;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.eventCardActive {
+  border-color: var(--main-accent-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--main-accent-color) 45%, white);
+}
+
+.eventCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 0.4rem;
+}
+
+.eventPill {
+  width: fit-content;
+  background: var(--main-lt-gray-color);
+  color: var(--main-text-color);
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.eventMeta {
+  font-size: 0.84rem;
+  color: var(--gray-700);
+}
+
+.detailsPanel {
+  padding: 0.9rem;
+  display: grid;
+  align-content: start;
+  gap: 0.7rem;
+}
+
+.detailsHeading {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: start;
+}
+
+.detailsImage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 0.7rem;
+}
+
+.primaryLink,
+.inlineLinkButton {
+  color: var(--main-accent-color-darkened);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.inlineLinkButton {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.emptyState {
+  padding: 1rem;
+  text-align: center;
+  color: var(--gray-700);
+}
+
+.popupCard {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.formOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(33, 33, 33, 0.56);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.formSection {
+  width: min(920px, 100%);
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  padding: 1rem;
+}
+
+.formHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.formHint {
+  margin-top: 0.4rem;
+  margin-bottom: 0.9rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.formField {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.formFieldFull {
+  grid-column: 1 / -1;
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.errorMessage {
+  color: var(--red-500);
+  font-weight: 600;
+}
+
+.successMessage {
+  color: var(--green-500);
+  font-weight: 600;
+}
+
+@media (max-width: 1000px) {
+  .toolbarMain {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .detailsPanel {
+    order: -1;
+  }
+}
+
+@media (max-width: 700px) {
+  .appShell {
+    width: min(100% - 1rem, 1320px);
+  }
+
+  .toolbarMain {
+    grid-template-columns: 1fr;
+  }
+
+  .statusRow {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .bottomActions {
+    justify-content: stretch;
+    flex-direction: column;
+  }
+
+  .bottomActions .primaryButton,
+  .bottomActions .secondaryButton {
+    width: 100%;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .mapCanvas {
+    min-height: 360px;
+  }
+
+  .brandLogo {
+    width: 6.25rem;
+  }
+}
