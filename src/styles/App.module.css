@@ -7,9 +7,15 @@
 }
 
 .header {
-  background: linear-gradient(120deg, var(--gray-900), var(--gray-700));
+  background: linear-gradient(
+    128deg,
+    var(--illini-blue-700) 0%,
+    var(--illini-blue-500) 62%,
+    var(--imc-orange-600) 100%
+  );
   color: var(--main-bg-color);
   border-radius: var(--main-border-radius);
+  border: 1px solid color-mix(in srgb, var(--illini-blue-300) 35%, transparent);
   padding: 1rem 1.2rem;
   display: flex;
   justify-content: space-between;
@@ -24,6 +30,7 @@
   font-weight: 700;
   font-size: 0.72rem;
   margin-bottom: 0.3rem;
+  color: var(--imc-orange-100);
 }
 
 .titleRow {
@@ -50,7 +57,7 @@
   min-height: 3.4rem;
   border-radius: var(--main-border-radius);
   background: var(--main-bg-color);
-  border: 1px solid var(--main-lt-gray-color);
+  border: 1px solid var(--imc-orange-100);
   box-shadow: var(--input-box-shadow);
   padding: 0.35rem 0.55rem;
   text-decoration: none;
@@ -65,8 +72,9 @@
 }
 
 .toolbar {
-  background: var(--main-bg-color);
+  background: linear-gradient(180deg, var(--main-bg-color), var(--gray-50));
   border-radius: var(--main-border-radius);
+  border: 1px solid var(--gray-200);
   padding: 0.95rem;
   box-shadow: var(--main-box-shadow);
   display: grid;
@@ -129,8 +137,9 @@
 }
 
 .bottomActions {
-  background: var(--main-bg-color);
+  background: linear-gradient(180deg, var(--main-bg-color), var(--imc-orange-50));
   border-radius: var(--main-border-radius);
+  border: 1px solid var(--imc-orange-100);
   padding: 0.85rem 0.95rem;
   box-shadow: var(--main-box-shadow);
   display: flex;
@@ -158,8 +167,8 @@
   justify-content: space-between;
   gap: 1rem;
   align-items: center;
-  background: var(--main-extralight-color);
-  border: 1px solid var(--main-lt-gray-color);
+  background: linear-gradient(180deg, var(--illini-blue-50), var(--main-bg-color));
+  border: 1px solid var(--illini-blue-100);
   border-radius: var(--main-border-radius);
   padding: 0.65rem 0.85rem;
 }
@@ -182,6 +191,7 @@
 .formSection {
   background: var(--main-bg-color);
   border-radius: var(--main-border-radius);
+  border: 1px solid var(--gray-200);
   box-shadow: var(--main-box-shadow);
 }
 
@@ -264,7 +274,7 @@
 
 .eventCardActive {
   border-color: var(--main-accent-color);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--main-accent-color) 45%, white);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--main-accent-color) 45%, var(--white));
 }
 
 .eventCardHeader {
@@ -284,7 +294,7 @@
   border: 1px solid color-mix(
     in srgb,
     var(--category-accent, var(--main-text-color)) 28%,
-    white
+    var(--white)
   );
   padding: 0.2rem 0.45rem;
   border-radius: 999px;

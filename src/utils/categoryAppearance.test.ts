@@ -7,6 +7,7 @@ describe('categoryAppearance', () => {
 
     expect(appearance.iconClass).toBe('bi-music-note-beamed')
     expect(appearance.accent).toBe('#e68805')
+    expect(appearance.mapTint).toBe('#fdecd3')
   })
 
   it('falls back for unknown categories', () => {
@@ -20,8 +21,8 @@ describe('categoryAppearance', () => {
     const style = getCategoryBadgeStyle('Food')
 
     expect(style).toMatchObject({
-      '--category-accent': '#2f8f46',
-      '--category-surface': '#e9f7ed',
+      '--category-accent': '#43a047',
+      '--category-surface': '#e8f5e9',
     })
   })
 })
