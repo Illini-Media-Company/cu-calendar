@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import type { CalendarEvent } from '../types/events'
 import { formatCentralRange } from '../utils/timezone'
+import { CategoryBadge } from './CategoryBadge'
 import styles from '../styles/App.module.css'
 
 interface EventListProps {
@@ -25,7 +26,7 @@ export function EventList({ events, selectedEventUid, onSelectEvent }: EventList
           >
             <div className={styles.eventCardHeader}>
               <h3>{event.name}</h3>
-              <span className={styles.eventPill}>{event.categoryType}</span>
+              <CategoryBadge category={event.categoryType} />
             </div>
             <p>{formatCentralRange(event.startDate, event.endDate)}</p>
             <p>{event.address}</p>

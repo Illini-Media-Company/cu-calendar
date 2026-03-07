@@ -1,5 +1,6 @@
 import type { CalendarEvent } from '../types/events'
 import { formatCentralRange, getCentralTimezoneLabel } from '../utils/timezone'
+import { CategoryBadge } from './CategoryBadge'
 import styles from '../styles/App.module.css'
 
 interface EventDetailsPanelProps {
@@ -28,7 +29,7 @@ export function EventDetailsPanel({ event, onClear }: EventDetailsPanelProps) {
 
       {event.image ? <img className={styles.detailsImage} src={event.image} alt="Event" /> : null}
 
-      <p className={styles.eventPill}>{event.categoryType}</p>
+      <CategoryBadge category={event.categoryType} />
       <p>{formatCentralRange(event.startDate, event.endDate)}</p>
       <p className={styles.eventMeta}>Timezone: {getCentralTimezoneLabel()} (CT)</p>
       <p>{event.address}</p>

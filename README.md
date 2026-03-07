@@ -4,8 +4,9 @@ Public-facing Champaign-Urbana event frontend for Illini Media Company. This rep
 
 ## Features
 
-- Map-first experience with Leaflet marker clustering
+- Map-first experience with Google Maps + clustered category markers
 - Calendar month/list views powered by React Big Calendar
+- Bootstrap Icons-powered category system shared across map markers, calendar events, and badges
 - Shared filters via URL query state (`view`, `category`, `start`, `end`, `q`, `event`)
 - Event detail panel (title, time range, category, location, description, link/image)
 - Public event submission and event-change request forms (multipart + reCAPTCHA token)
@@ -23,10 +24,12 @@ App runs at `http://localhost:5173/cu-calendar/`.
 
 ## Environment Variables
 
-Create `.env.local` from `.env.example`.
+Use a local `.env.local` file for environment configuration.
 
 - `VITE_USE_MOCK_API`: `true|false`
 - `VITE_EVENTS_API_BASE`: backend base URL (blank means same-origin)
+- `VITE_GOOGLE_MAPS_API_KEY`: browser Google Maps JavaScript API key
+- `VITE_GOOGLE_MAPS_MAP_ID`: optional Google Maps map ID for custom styling
 - `VITE_RECAPTCHA_SITE_KEY`: public reCAPTCHA v3 site key
 
 Behavior default:

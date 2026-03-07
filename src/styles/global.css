@@ -1,9 +1,21 @@
+@font-face {
+  font-family: 'Futura PT Local';
+  src:
+    local('Futura PT'),
+    local('FuturaPT-Book'),
+    local('Futura'),
+    local('futura-pt');
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+}
+
 :root {
-  --bs-font-sans-serif: futura-pt, system-ui, sans-serif;
+  --bs-font-sans-serif: 'Futura PT Local', futura-pt, Futura, system-ui, sans-serif;
   --bs-body-font-weight: 300;
   --bs-body-color: var(--gray-900);
 
-  font-family: futura-pt, system-ui, sans-serif;
+  font-family: 'Futura PT Local', futura-pt, Futura, system-ui, sans-serif;
   font-weight: 300;
   font-style: normal;
 
@@ -60,7 +72,7 @@
 
 body {
   margin: 0;
-  font-family: futura-pt, system-ui, sans-serif;
+  font-family: 'Futura PT Local', futura-pt, Futura, system-ui, sans-serif;
   font-weight: 300;
   color: var(--main-text-color);
   background: var(--main-bg-color);
@@ -73,7 +85,7 @@ a {
 }
 
 p {
-  font-family: futura-pt, sans-serif;
+  font-family: 'Futura PT Local', futura-pt, Futura, sans-serif;
   font-weight: 300;
   font-style: normal;
   font-size: 1rem;
@@ -82,7 +94,7 @@ p {
 }
 
 h1 {
-  font-family: futura-pt, sans-serif;
+  font-family: 'Futura PT Local', futura-pt, Futura, sans-serif;
   font-weight: 500;
   font-style: normal;
   font-size: 3rem;
@@ -90,7 +102,7 @@ h1 {
 }
 
 h2 {
-  font-family: futura-pt, sans-serif;
+  font-family: 'Futura PT Local', futura-pt, Futura, sans-serif;
   font-weight: 500;
   font-style: normal;
   font-size: 2rem;
@@ -98,7 +110,7 @@ h2 {
 }
 
 h3 {
-  font-family: futura-pt, sans-serif;
+  font-family: 'Futura PT Local', futura-pt, Futura, sans-serif;
   font-weight: 500;
   font-style: normal;
   font-size: 1.5rem;
@@ -106,7 +118,7 @@ h3 {
 }
 
 h4 {
-  font-family: futura-pt, sans-serif;
+  font-family: 'Futura PT Local', futura-pt, Futura, sans-serif;
   font-weight: 500;
   font-style: normal;
   font-size: 1rem;
@@ -180,17 +192,70 @@ textarea {
   cursor: not-allowed;
 }
 
-.cu-calendar-marker-container {
-  background: transparent;
-  border: 0;
+.cu-category-marker {
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 999px;
+  border: 2px solid var(--marker-accent-dark, var(--main-text-color));
+  background: linear-gradient(145deg, var(--marker-tint, var(--main-extralight-color)), #fff);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.16);
+  display: grid;
+  place-items: center;
+  color: var(--marker-accent, var(--main-accent-color));
+  font-size: 1.05rem;
+  position: relative;
 }
 
-.cu-calendar-marker-pin {
-  display: block;
-  width: 18px;
-  height: 18px;
+.cu-category-marker::after {
+  content: '';
+  position: absolute;
+  bottom: -0.45rem;
+  left: 50%;
+  width: 0.8rem;
+  height: 0.8rem;
+  background: #fff;
+  border-right: 2px solid var(--marker-accent-dark, var(--main-text-color));
+  border-bottom: 2px solid var(--marker-accent-dark, var(--main-text-color));
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.cu-category-marker.is-selected {
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--marker-accent, var(--main-accent-color)) 20%, white),
+    0 0.6rem 1.1rem rgba(0, 0, 0, 0.2);
+}
+
+.cu-category-marker__glyph {
+  position: relative;
+  z-index: 1;
+}
+
+.cu-map-infowindow {
+  min-width: 12rem;
+  display: grid;
+  gap: 0.35rem;
+  color: var(--main-text-color);
+}
+
+.cu-map-infowindow__category {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  padding: 0.2rem 0.45rem;
   border-radius: 999px;
-  background: var(--main-accent-color);
-  border: 3px solid var(--main-text-color);
-  box-shadow: var(--input-box-shadow);
+  background: var(--info-surface, var(--main-lt-gray-color));
+  color: var(--info-accent, var(--main-text-color));
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.rbc-calendar,
+.rbc-toolbar,
+.rbc-event,
+.rbc-agenda-view table,
+.gm-style,
+.gm-style button,
+.gm-style input {
+  font-family: 'Futura PT Local', futura-pt, Futura, system-ui, sans-serif;
 }

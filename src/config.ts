@@ -2,6 +2,8 @@ const explicitMock = import.meta.env.VITE_USE_MOCK_API
 
 export const APP_CONFIG = {
   apiBaseUrl: import.meta.env.VITE_EVENTS_API_BASE ?? '',
+  googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? '',
+  googleMapsMapId: import.meta.env.VITE_GOOGLE_MAPS_MAP_ID ?? '',
   recaptchaSiteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY ?? '',
   useMockApi:
     explicitMock === 'true' ||

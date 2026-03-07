@@ -7,6 +7,7 @@ import {
 import { format, parse, startOfWeek, getDay } from 'date-fns'
 import { enUS } from 'date-fns/locale'
 import type { CalendarEvent, CalendarMode } from '../types/events'
+import { getCategoryAppearance } from '../utils/categoryAppearance'
 import { toCalendarDate } from '../utils/timezone'
 import styles from '../styles/App.module.css'
 
@@ -33,6 +34,17 @@ interface UICalendarEvent extends BigCalendarEvent {
   resource: CalendarEvent
 }
 
+function CalendarEventLabel({ event }: { event: UICalendarEvent }) {
+  const appearance = getCategoryAppearance(event.resource.categoryType)
+
+  return (
+    <span className={styles.calendarEventLabel}>
+      <i className={`bi ${appearance.iconClass} ${styles.calendarEventGlyph}`} aria-hidden="true"></i>
+      <span>{event.title}</span>
+    </span>
+  )
+}
+
 function mapToCalendarEvents(events: CalendarEvent[]): UICalendarEvent[] {
   return events.map((event) => ({
     title: event.name,
@@ -51,6 +63,21 @@ export function CalendarView({
 }: CalendarViewProps) {
   const calendarEvents = mapToCalendarEvents(events)
   const activeView: View = mode === 'list' ? 'agenda' : 'month'
+
+  const eventPropGetter = (event: BigCalendarEvent) => {
+    const calendarEvent = event as UICalendarEvent
+    const appearance = getCategoryAppearance(calendarEvent.resource.categoryType)
+
+    return {
+      style: {
+        background: appearance.surface,
+        color: appearance.accentDark,
+        border: `1px solid ${appearance.accent}`,
+        borderLeft: `0.45rem solid ${appearance.accent}`,
+        boxShadow: 'none',
+      },
+    }
+  }
 
   return (
     <section className={styles.calendarPanel} aria-label="Calendar view">
@@ -89,6 +116,13 @@ export function CalendarView({
             const calendarEvent = event as UICalendarEvent
             onSelectEvent(calendarEvent.resource.uid)
           }}
+          components={{
+            event: CalendarEventLabel,
+            agenda: {
+              event: CalendarEventLabel,
+            },
+          }}
+          eventPropGetter={eventPropGetter}
           popup
           step={30}
           length={30}
