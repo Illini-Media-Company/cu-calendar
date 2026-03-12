@@ -1,8 +1,21 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { PublicEventForm } from './PublicEventForm'
 import { IMAGE_UPLOAD_LIMIT_MESSAGE, MAX_IMAGE_UPLOAD_BYTES } from '../../utils/imageUpload'
+
+vi.mock('../../config', () => ({
+  APP_CONFIG: {
+    apiBaseUrl: '',
+    googleMapsApiKey: '',
+    googleMapsMapId: '',
+    recaptchaSiteKey: '',
+    useMockApi: true,
+    mapCenter: { lat: 40.1106, lng: -88.2073 },
+    mapZoom: 12,
+  },
+}))
+
+import { PublicEventForm } from './PublicEventForm'
 
 const categories = ['Music', 'Food']
 

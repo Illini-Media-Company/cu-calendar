@@ -141,7 +141,7 @@
 }
 
 .bottomActions {
-  background: linear-gradient(180deg, var(--main-bg-color), var(--imc-orange-50));
+  background: color-mix(in srgb, var(--imc-orange-50) 82%, var(--white));
   border-radius: var(--main-border-radius);
   border: 1px solid var(--imc-orange-100);
   padding: 0.85rem 0.95rem;
@@ -352,8 +352,7 @@
 
 .eventCardFeatured {
   border-color: var(--featured-accent);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--featured-surface) 72%, var(--white)), var(--white));
+  background: color-mix(in srgb, var(--featured-surface) 82%, var(--white));
   box-shadow:
     0 0 0 1px color-mix(in srgb, var(--featured-accent) 30%, var(--white)),
     0 0.6rem 1rem color-mix(in srgb, var(--featured-shadow) 28%, transparent);
