@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react'
 import { createApiClient } from '../api/client'
 import { validateImageUpload } from '../utils/imageUpload'
-import { getRecaptchaToken } from '../utils/recaptcha'
 
 interface SubmissionState {
   loading: boolean
@@ -15,10 +14,6 @@ const INITIAL_STATE: SubmissionState = {
   success: '',
 }
 
-function appendRecaptcha(formData: FormData, token: string) {
-  formData.set('recaptcha_token', token)
-}
-
 export function useSubmissionActions() {
   const [submissionState, setSubmissionState] = useState<SubmissionState>(INITIAL_STATE)
   const client = createApiClient()
@@ -29,8 +24,6 @@ export function useSubmissionActions() {
 
       try {
         validateImageUpload(payload)
-        const token = await getRecaptchaToken('event_submission')
-        appendRecaptcha(payload, token)
         await client.submitEventRequest(payload)
 
         setSubmissionState({

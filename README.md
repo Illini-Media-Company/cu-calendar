@@ -10,7 +10,7 @@ Public-facing Champaign-Urbana event frontend for Illini Media Company. This rep
 - Bootstrap Icons-powered category system shared across map markers, calendar events, and badges
 - Shared filters via URL query state (`view`, `category`, `start`, `end`, `q`, `event`)
 - Event detail panel (title, time range, category, location, description, link/image)
-- Public event submission form (multipart + reCAPTCHA token)
+- Public event submission form (multipart upload; reCAPTCHA currently disabled)
 - Typed API adapter with mock mode for frontend-first development
 - iframe auto-resize messaging with fallback contract
 
@@ -32,7 +32,7 @@ Use a local `.env.local` file for environment configuration.
 - `VITE_GOOGLE_MAPS_API_KEY`: browser Google Maps JavaScript API key
   - For local dev, authorize `http://localhost:5173/*` and `http://localhost:5000/*` in the key's HTTP referrer restrictions.
 - `VITE_GOOGLE_MAPS_MAP_ID`: optional Google Maps map ID for custom styling
-- `VITE_RECAPTCHA_SITE_KEY`: public reCAPTCHA v3 site key
+- `VITE_RECAPTCHA_SITE_KEY`: public reCAPTCHA v3 site key, currently unused while frontend reCAPTCHA is disabled
 
 Behavior default:
 
@@ -54,17 +54,17 @@ Behavior default:
 ```ts
 {
   uid: string
-  name: string
+  title: string
   description: string
-  categoryType: string
-  isFeatured?: boolean
-  startDate: string
-  endDate: string
+  event_type: string
+  highlight?: boolean
+  start_date: string
+  end_date: string
   address: string
   lat?: number | null
   long?: number | null
   url?: string | null
-  image?: string | null
+  images: string[]
 }
 ```
 

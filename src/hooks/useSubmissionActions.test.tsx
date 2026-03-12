@@ -5,7 +5,6 @@ import { useSubmissionActions } from './useSubmissionActions'
 
 const mocked = vi.hoisted(() => ({
   submitEventRequest: vi.fn(),
-  getRecaptchaToken: vi.fn(),
 }))
 
 vi.mock('../api/client', () => ({
@@ -14,18 +13,12 @@ vi.mock('../api/client', () => ({
   }),
 }))
 
-vi.mock('../utils/recaptcha', () => ({
-  getRecaptchaToken: mocked.getRecaptchaToken,
-}))
-
 describe('useSubmissionActions', () => {
   beforeEach(() => {
     mocked.submitEventRequest.mockReset()
-    mocked.getRecaptchaToken.mockReset()
   })
 
-  it('appends recaptcha token before event submission', async () => {
-    mocked.getRecaptchaToken.mockResolvedValue('token-1')
+  it('submits the event payload directly', async () => {
     mocked.submitEventRequest.mockResolvedValue(undefined)
 
     const { result } = renderHook(() => useSubmissionActions())
@@ -36,14 +29,11 @@ describe('useSubmissionActions', () => {
       await result.current.submitEventRequest(payload)
     })
 
-    expect(mocked.getRecaptchaToken).toHaveBeenCalledWith('event_submission')
-    expect(payload.get('recaptcha_token')).toBe('token-1')
     expect(mocked.submitEventRequest).toHaveBeenCalledWith(payload)
     expect(result.current.submissionState.success).toContain('submitted')
   })
 
   it('stores error state when event submission fails', async () => {
-    mocked.getRecaptchaToken.mockResolvedValue('token-2')
     mocked.submitEventRequest.mockRejectedValue(new Error('Nope'))
 
     const { result } = renderHook(() => useSubmissionActions())
@@ -55,7 +45,7 @@ describe('useSubmissionActions', () => {
     expect(result.current.submissionState.error).toBe('Nope')
   })
 
-  it('rejects oversized image uploads before recaptcha or API submission', async () => {
+  it('rejects oversized image uploads before API submission', async () => {
     const { result } = renderHook(() => useSubmissionActions())
     const payload = new FormData()
     payload.set(
@@ -69,7 +59,6 @@ describe('useSubmissionActions', () => {
       await result.current.submitEventRequest(payload)
     })
 
-    expect(mocked.getRecaptchaToken).not.toHaveBeenCalled()
     expect(mocked.submitEventRequest).not.toHaveBeenCalled()
     expect(result.current.submissionState.error).toBe(IMAGE_UPLOAD_LIMIT_MESSAGE)
   })
