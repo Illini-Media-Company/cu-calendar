@@ -47,12 +47,14 @@ vi.mock('./hooks/useEventsData', () => ({
     events: [
       {
         uid: 'evt-001',
-        name: 'Event',
+        title: 'Event',
         description: 'Desc',
-        categoryType: 'Music',
-        startDate: '2026-03-12T19:00:00-05:00',
-        endDate: '2026-03-12T21:00:00-05:00',
+        event_type: 'Music',
+        highlight: false,
+        start_date: '2026-03-12T19:00:00-05:00',
+        end_date: '2026-03-12T21:00:00-05:00',
         address: 'Main St',
+        images: [],
       },
     ],
     categories: ['Music'],
@@ -74,7 +76,6 @@ vi.mock('./hooks/useSubmissionActions', () => ({
       success: '',
     },
     submitEventRequest: vi.fn().mockResolvedValue(true),
-    submitChangeRequest: vi.fn().mockResolvedValue(true),
     resetSubmissionState,
   }),
 }))

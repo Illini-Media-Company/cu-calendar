@@ -84,12 +84,16 @@
 .toolbarMain {
   display: grid;
   gap: 0.75rem;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: max-content repeat(4, minmax(0, 1fr));
 }
 
 .controlGroup {
   display: grid;
   gap: 0.35rem;
+}
+
+.viewControlGroup {
+  justify-self: start;
 }
 
 .controlLabel {
@@ -143,8 +147,17 @@
   padding: 0.85rem 0.95rem;
   box-shadow: var(--main-box-shadow);
   display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.bottomActionsMessage {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  color: var(--gray-700);
 }
 
 .primaryButton,
@@ -177,11 +190,13 @@
   display: grid;
   grid-template-columns: minmax(0, 2.3fr) minmax(280px, 1fr);
   gap: 1rem;
+  align-items: start;
 }
 
 .mainPanel {
   display: grid;
   gap: 0.8rem;
+  min-width: 0;
 }
 
 .mapPanel,
@@ -202,9 +217,14 @@
 
 .mapCanvas {
   width: 100%;
-  min-height: 460px;
+  min-height: 38rem;
   border-radius: 0.7rem;
   overflow: hidden;
+}
+
+.mapCanvas:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--main-accent-color) 70%, var(--white));
+  outline-offset: 3px;
 }
 
 .mapLegend {
@@ -223,6 +243,7 @@
 .calendarPanel {
   display: grid;
   gap: 0.65rem;
+  min-width: 0;
 }
 
 .calendarTopBar {
@@ -234,28 +255,85 @@
 
 .calendarCanvas {
   min-height: 470px;
+  min-width: 0;
 }
 
 .calendarEventLabel {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  width: 100%;
+  min-width: 0;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.calendarMonthEventLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.calendarAgendaEventLabel {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.calendarFeaturedCompactBadge {
+  flex: 0 0 auto;
+}
+
+.calendarFeaturedAgendaBadge {
+  flex: 0 0 auto;
+}
+
 .calendarEventGlyph {
   flex: 0 0 auto;
+}
+
+.calendarMonthEventGlyph {
+  flex: 0 0 auto;
+  font-size: 0.74rem;
+  opacity: 0.82;
+}
+
+.calendarMonthFeaturedMarker {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--featured-surface), var(--featured-surface-strong));
+  color: var(--featured-accent-dark);
+  border: 1px solid color-mix(in srgb, var(--featured-accent) 58%, var(--white));
+  box-shadow: 0 0.12rem 0.28rem color-mix(in srgb, var(--featured-shadow) 32%, transparent);
+  font-size: 0.56rem;
+}
+
+.calendarEventText {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .eventList {
   list-style: none;
   margin: 0;
-  padding: 0.8rem;
+  padding: 0.65rem;
   display: grid;
-  gap: 0.7rem;
+  gap: 0.55rem;
   max-height: 360px;
   overflow: auto;
 }
@@ -263,13 +341,22 @@
 .eventCard {
   border: 1px solid var(--main-lt-gray-color);
   background: var(--main-bg-color);
-  border-radius: 0.75rem;
-  padding: 0.7rem;
+  border-radius: 0.65rem;
+  padding: 0.58rem 0.62rem;
   width: 100%;
   text-align: left;
   cursor: pointer;
   display: grid;
-  gap: 0.35rem;
+  gap: 0.24rem;
+}
+
+.eventCardFeatured {
+  border-color: var(--featured-accent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--featured-surface) 72%, var(--white)), var(--white));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--featured-accent) 30%, var(--white)),
+    0 0.6rem 1rem color-mix(in srgb, var(--featured-shadow) 28%, transparent);
 }
 
 .eventCardActive {
@@ -281,7 +368,45 @@
   display: flex;
   justify-content: space-between;
   align-items: start;
-  gap: 0.4rem;
+  gap: 0.3rem;
+}
+
+.eventCardTitleGroup {
+  min-width: 0;
+}
+
+.eventCardTitle {
+  font-size: 1.12rem;
+  line-height: 1.12;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eventCardBadges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.25rem;
+}
+
+.eventListFeaturedBadge,
+.eventListCategoryBadge {
+  font-size: 0.68rem;
+  padding-block: 0.14rem;
+}
+
+.eventListFeaturedBadge {
+  padding-inline: 0.4rem;
+}
+
+.eventListCategoryBadge {
+  padding-inline: 0.4rem;
+}
+
+.eventCardText {
+  font-size: 0.88rem;
+  line-height: 1.25;
 }
 
 .eventPill {
@@ -307,7 +432,8 @@
 }
 
 .eventMeta {
-  font-size: 0.84rem;
+  font-size: 0.78rem;
+  line-height: 1.2;
   color: var(--gray-700);
 }
 
@@ -316,6 +442,14 @@
   display: grid;
   align-content: start;
   gap: 0.7rem;
+  min-width: 0;
+}
+
+.detailsPanelFeatured {
+  border-color: color-mix(in srgb, var(--featured-accent) 55%, var(--gray-200));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--featured-accent) 26%, var(--white)),
+    var(--main-box-shadow);
 }
 
 .detailsHeading {
@@ -323,6 +457,12 @@
   justify-content: space-between;
   gap: 0.5rem;
   align-items: start;
+}
+
+.detailsBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .detailsImage {
@@ -397,6 +537,12 @@
   gap: 0.3rem;
 }
 
+.formFieldHint {
+  font-size: 0.82rem;
+  line-height: 1.25;
+  color: var(--gray-700);
+}
+
 .formFieldFull {
   grid-column: 1 / -1;
 }
@@ -446,6 +592,7 @@
   .bottomActions {
     justify-content: stretch;
     flex-direction: column;
+    align-items: stretch;
   }
 
   .bottomActions .primaryButton,
@@ -457,8 +604,16 @@
     grid-template-columns: 1fr;
   }
 
+  .eventCardHeader {
+    flex-direction: column;
+  }
+
+  .eventCardBadges {
+    justify-content: flex-start;
+  }
+
   .mapCanvas {
-    min-height: 360px;
+    min-height: 32rem;
   }
 
   .brandLogo {

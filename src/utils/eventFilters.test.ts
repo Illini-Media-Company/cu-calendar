@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { filterEventsByQuery, sortEventsByStartDate } from './eventFilters'
+import { filterEventsByQuery, sortEventsForDisplay } from './eventFilters'
 import { MOCK_EVENTS } from '../mocks/events'
 
 describe('event filter utilities', () => {
@@ -26,8 +26,14 @@ describe('event filter utilities', () => {
     expect(filtered.map((event) => event.uid)).toEqual(['evt-002', 'evt-003'])
   })
 
-  it('sorts events chronologically', () => {
-    const sorted = sortEventsByStartDate([MOCK_EVENTS[4], MOCK_EVENTS[0]])
-    expect(sorted.map((event) => event.uid)).toEqual(['evt-001', 'evt-005'])
+  it('sorts featured events ahead of standard events, then chronologically within each tier', () => {
+    const sorted = sortEventsForDisplay([MOCK_EVENTS[4], MOCK_EVENTS[0], MOCK_EVENTS[3]])
+
+    expect(sorted.map((event) => event.uid)).toEqual(['evt-001', 'evt-004', 'evt-005'])
+  })
+
+  it('keeps chronological order inside the standard tier', () => {
+    const sorted = sortEventsForDisplay([MOCK_EVENTS[4], MOCK_EVENTS[1]])
+    expect(sorted.map((event) => event.uid)).toEqual(['evt-002', 'evt-005'])
   })
 })

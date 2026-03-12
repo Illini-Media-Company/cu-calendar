@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import { createApiClient } from '../api/client'
+import { validateImageUpload } from '../utils/imageUpload'
 import { getRecaptchaToken } from '../utils/recaptcha'
 
 interface SubmissionState {
@@ -15,7 +16,7 @@ const INITIAL_STATE: SubmissionState = {
 }
 
 function appendRecaptcha(formData: FormData, token: string) {
-  formData.set('recaptchaToken', token)
+  formData.set('recaptcha_token', token)
 }
 
 export function useSubmissionActions() {
@@ -27,6 +28,7 @@ export function useSubmissionActions() {
       setSubmissionState({ loading: true, error: '', success: '' })
 
       try {
+        validateImageUpload(payload)
         const token = await getRecaptchaToken('event_submission')
         appendRecaptcha(payload, token)
         await client.submitEventRequest(payload)
@@ -52,36 +54,6 @@ export function useSubmissionActions() {
     [client],
   )
 
-  const submitChangeRequest = useCallback(
-    async (payload: FormData) => {
-      setSubmissionState({ loading: true, error: '', success: '' })
-
-      try {
-        const token = await getRecaptchaToken('event_change_request')
-        appendRecaptcha(payload, token)
-        await client.submitChangeRequest(payload)
-
-        setSubmissionState({
-          loading: false,
-          error: '',
-          success: 'Your change request was submitted for review.',
-        })
-        return true
-      } catch (error) {
-        setSubmissionState({
-          loading: false,
-          error:
-            error instanceof Error
-              ? error.message
-              : 'Unable to submit change request at this time.',
-          success: '',
-        })
-        return false
-      }
-    },
-    [client],
-  )
-
   const resetSubmissionState = useCallback(() => {
     setSubmissionState(INITIAL_STATE)
   }, [])
@@ -89,7 +61,6 @@ export function useSubmissionActions() {
   return {
     submissionState,
     submitEventRequest,
-    submitChangeRequest,
     resetSubmissionState,
   }
 }

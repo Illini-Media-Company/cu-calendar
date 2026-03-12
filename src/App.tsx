@@ -14,8 +14,6 @@ import { useSubmissionActions } from './hooks/useSubmissionActions'
 import type { QueryState } from './types/query'
 import styles from './styles/App.module.css'
 
-type FormVariant = 'submission' | 'change' | null
-
 function shouldClearEventSelection(patch: Partial<QueryState>): boolean {
   return ['category', 'start', 'end', 'q'].some((key) => key in patch)
 }
@@ -23,16 +21,12 @@ function shouldClearEventSelection(patch: Partial<QueryState>): boolean {
 function App() {
   const containerRef = useRef<HTMLElement | null>(null)
   const [calendarMode, setCalendarMode] = useState<CalendarMode>('month')
-  const [formVariant, setFormVariant] = useState<FormVariant>(null)
+  const [isSubmissionFormOpen, setIsSubmissionFormOpen] = useState(false)
 
   const { queryState, updateQueryState } = useQueryState()
   const { events, categories, loading, error, selectedEvent } = useEventsData(queryState)
-  const {
-    submissionState,
-    submitEventRequest,
-    submitChangeRequest,
-    resetSubmissionState,
-  } = useSubmissionActions()
+  const { submissionState, submitEventRequest, resetSubmissionState } =
+    useSubmissionActions()
 
   useIframeAutoResize(containerRef)
 
@@ -46,30 +40,28 @@ function App() {
   }
 
   const activeForm = useMemo(() => {
-    if (!formVariant) {
+    if (!isSubmissionFormOpen) {
       return null
     }
 
     return (
       <PublicEventForm
-        variant={formVariant}
         categories={categories}
         loading={submissionState.loading}
         successMessage={submissionState.success}
         errorMessage={submissionState.error}
-        onClose={() => setFormVariant(null)}
+        onClose={() => setIsSubmissionFormOpen(false)}
         onResetStatus={resetSubmissionState}
-        onSubmit={formVariant === 'submission' ? submitEventRequest : submitChangeRequest}
+        onSubmit={submitEventRequest}
       />
     )
   }, [
     categories,
-    formVariant,
+    isSubmissionFormOpen,
     resetSubmissionState,
     submissionState.error,
     submissionState.loading,
     submissionState.success,
-    submitChangeRequest,
     submitEventRequest,
   ])
 
@@ -116,25 +108,18 @@ function App() {
       </section>
 
       <section className={styles.bottomActions}>
+        <p className={styles.bottomActionsMessage}>
+          Want your organization&apos;s events on the CU Calendar? Submit them here.
+        </p>
         <button
           type="button"
           className={`button-primary ${styles.primaryButton}`}
           onClick={() => {
             resetSubmissionState()
-            setFormVariant('submission')
+            setIsSubmissionFormOpen(true)
           }}
         >
           Submit Event
-        </button>
-        <button
-          type="button"
-          className={`button-secondary ${styles.secondaryButton}`}
-          onClick={() => {
-            resetSubmissionState()
-            setFormVariant('change')
-          }}
-        >
-          Request Change
         </button>
       </section>
 

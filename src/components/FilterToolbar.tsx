@@ -16,7 +16,7 @@ export function FilterToolbar({
   return (
     <section className={styles.toolbar} aria-label="Event filters">
       <div className={styles.toolbarMain}>
-        <div className={styles.controlGroup}>
+        <div className={clsx(styles.controlGroup, styles.viewControlGroup)}>
           <span className={styles.controlLabel}>View</span>
           <div className={styles.segmentedControl} role="tablist" aria-label="View mode">
             <button

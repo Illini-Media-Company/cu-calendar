@@ -22,6 +22,33 @@ function asOptionalNumber(value: unknown): number | null {
   return Number.isFinite(numeric) ? numeric : null
 }
 
+function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) {
+    return []
+  }
+
+  return value
+    .map((entry) => asString(entry))
+    .filter((entry): entry is string => entry !== null)
+}
+
+function asBoolean(value: unknown): boolean {
+  if (typeof value === 'boolean') {
+    return value
+  }
+
+  if (typeof value === 'number') {
+    return value !== 0
+  }
+
+  if (typeof value === 'string') {
+    const normalized = value.trim().toLowerCase()
+    return ['true', '1', 'yes', 'y', 'featured'].includes(normalized)
+  }
+
+  return false
+}
+
 function asIsoDate(value: unknown): string | null {
   const str = asString(value)
   if (!str) {
@@ -38,30 +65,39 @@ function asIsoDate(value: unknown): string | null {
 
 export function normalizeEvent(payload: RawEventPayload): CalendarEvent | null {
   const uid = asString(payload.uid)
-  const name = asString(payload.name)
+  const title = asString(payload.title) ?? asString(payload.name)
   const description = asString(payload.description) ?? ''
-  const categoryType =
-    asString(payload.categoryType) ?? asString(payload.category_type) ?? 'Uncategorized'
-  const startDate = asIsoDate(payload.startDate ?? payload.start_date)
-  const endDate = asIsoDate(payload.endDate ?? payload.end_date)
+  const event_type =
+    asString(payload.event_type) ??
+    asString(payload.categoryType) ??
+    asString(payload.category_type) ??
+    'Uncategorized'
+  const start_date = asIsoDate(payload.start_date ?? payload.startDate)
+  const end_date = asIsoDate(payload.end_date ?? payload.endDate)
   const address = asString(payload.address) ?? 'Address pending'
+  const images = asStringArray(payload.images)
+  const image = asString(payload.image)
+  const normalizedImages = [...new Set(image ? [image, ...images] : images)]
 
-  if (!uid || !name || !startDate || !endDate) {
+  if (!uid || !title || !start_date || !end_date) {
     return null
   }
 
   return {
     uid,
-    name,
+    title,
     description,
-    categoryType,
-    startDate,
-    endDate,
+    event_type,
+    highlight: asBoolean(
+      payload.highlight ?? payload.isFeatured ?? payload.is_featured,
+    ),
+    start_date,
+    end_date,
     address,
     lat: asOptionalNumber(payload.lat),
     long: asOptionalNumber(payload.long),
     url: asString(payload.url),
-    image: asString(payload.image),
+    images: normalizedImages,
   }
 }
 

@@ -46,7 +46,7 @@ describe('liveApiClient', () => {
 
     const client = createLiveApiClient('')
     const payload = new FormData()
-    payload.set('name', 'Event')
+    payload.set('title', 'Event')
 
     await client.submitEventRequest(payload)
 

@@ -13,16 +13,17 @@ function wait(delayMs = 250): Promise<void> {
 function toRawEventPayload(event: (typeof MOCK_EVENTS)[number]): RawEventPayload {
   return {
     uid: event.uid,
-    name: event.name,
+    title: event.title,
     description: event.description,
-    categoryType: event.categoryType,
-    startDate: event.startDate,
-    endDate: event.endDate,
+    event_type: event.event_type,
+    highlight: event.highlight,
+    start_date: event.start_date,
+    end_date: event.end_date,
     address: event.address,
     lat: event.lat,
     long: event.long,
     url: event.url,
-    image: event.image,
+    images: event.images,
   }
 }
 
@@ -43,17 +44,12 @@ export function createMockApiClient(): ApiClient {
 
     async getCategories(): Promise<string[]> {
       await wait(150)
-      return [...new Set([...FALLBACK_CATEGORIES, ...MOCK_EVENTS.map((e) => e.categoryType)])]
+      return [...new Set([...FALLBACK_CATEGORIES, ...MOCK_EVENTS.map((e) => e.event_type)])]
     },
 
     async submitEventRequest(formData: FormData): Promise<void> {
       await wait()
       console.info('Mock submission accepted', Object.fromEntries(formData.entries()))
-    },
-
-    async submitChangeRequest(formData: FormData): Promise<void> {
-      await wait()
-      console.info('Mock change request accepted', Object.fromEntries(formData.entries()))
     },
   }
 }

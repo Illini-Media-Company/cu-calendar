@@ -234,6 +234,12 @@
   --imc-success: var(--wpgu-green-500);
   --imc-card: var(--main-bg-color);
   --imc-shadow: var(--main-box-shadow);
+  --featured-accent: #f9a825;
+  --featured-accent-dark: #8d5301;
+  --featured-surface: #fff8db;
+  --featured-surface-strong: #fff3c4;
+  --featured-halo: #ffe082;
+  --featured-shadow: rgba(249, 168, 37, 0.34);
 
   color-scheme: light;
 }
@@ -414,6 +420,12 @@ textarea {
   color: var(--main-text-color);
 }
 
+.cu-map-infowindow__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
 .cu-map-infowindow__category {
   display: inline-flex;
   align-items: center;
@@ -427,6 +439,29 @@ textarea {
   font-weight: 600;
 }
 
+.cu-featured-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--featured-surface), var(--featured-surface-strong));
+  color: var(--featured-accent-dark);
+  border: 1px solid color-mix(in srgb, var(--featured-accent) 55%, var(--white));
+  box-shadow: 0 0.2rem 0.45rem color-mix(in srgb, var(--featured-shadow) 40%, transparent);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.cu-featured-badge--compact {
+  padding: 0.12rem 0.38rem;
+  font-size: 0.63rem;
+  box-shadow: none;
+}
+
 .rbc-calendar,
 .rbc-toolbar,
 .rbc-event,
@@ -435,4 +470,55 @@ textarea {
 .gm-style button,
 .gm-style input {
   font-family: 'Futura PT Local', futura-pt, Futura, system-ui, sans-serif;
+}
+
+.rbc-calendar,
+.rbc-month-view,
+.rbc-row-content,
+.rbc-row-segment,
+.rbc-event-content {
+  min-width: 0;
+}
+
+.rbc-month-view {
+  min-height: 38rem;
+}
+
+.rbc-month-row {
+  min-height: 6.25rem;
+}
+
+.rbc-month-view .rbc-date-cell {
+  padding-right: 0.35rem;
+}
+
+.rbc-month-view .rbc-row-segment {
+  padding: 0 1px;
+}
+
+.rbc-month-view .rbc-event {
+  min-height: 1.35rem;
+  padding: 0.08rem 0.24rem;
+  font-size: 0.8rem;
+  line-height: 1.05;
+}
+
+.rbc-month-view .rbc-show-more {
+  margin-top: 0.05rem;
+  font-size: 0.8rem;
+  line-height: 1.05;
+}
+
+.rbc-event-content {
+  overflow: hidden;
+}
+
+@media (max-width: 700px) {
+  .rbc-month-view {
+    min-height: 32rem;
+  }
+
+  .rbc-month-row {
+    min-height: 5.1rem;
+  }
 }

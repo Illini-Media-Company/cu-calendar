@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test('loads app, toggles views, and submits event request', async ({ page }) => {
-  await page.goto('/cu-calendar/')
+  await page.goto('/')
 
   await expect(page.getByRole('heading', { name: 'CU Calendar' })).toBeVisible()
 

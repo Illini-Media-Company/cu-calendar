@@ -1,8 +1,9 @@
 import type { CalendarEvent } from '../types/events'
 import type { QueryState } from '../types/query'
+import { compareEventsForDisplay } from './featuredEvents'
 
 function inDateRange(event: CalendarEvent, start: string, end: string): boolean {
-  const eventStart = new Date(event.startDate)
+  const eventStart = new Date(event.start_date)
 
   if (Number.isNaN(eventStart.valueOf())) {
     return false
@@ -31,7 +32,7 @@ function textIncludes(event: CalendarEvent, query: string): boolean {
   }
 
   const normalized = query.toLowerCase()
-  return [event.name, event.description, event.address, event.categoryType]
+  return [event.title, event.description, event.address, event.event_type]
     .join(' ')
     .toLowerCase()
     .includes(normalized)
@@ -43,7 +44,7 @@ export function filterEventsByQuery(
 ): CalendarEvent[] {
   return events.filter((event) => {
     const categoryMatch =
-      !queryState.category || event.categoryType === queryState.category
+      !queryState.category || event.event_type === queryState.category
 
     return (
       categoryMatch &&
@@ -53,8 +54,6 @@ export function filterEventsByQuery(
   })
 }
 
-export function sortEventsByStartDate(events: CalendarEvent[]): CalendarEvent[] {
-  return [...events].sort((a, b) => {
-    return new Date(a.startDate).valueOf() - new Date(b.startDate).valueOf()
-  })
+export function sortEventsForDisplay(events: CalendarEvent[]): CalendarEvent[] {
+  return [...events].sort(compareEventsForDisplay)
 }

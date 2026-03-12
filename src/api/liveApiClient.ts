@@ -84,14 +84,5 @@ export function createLiveApiClient(baseUrl: string): ApiClient {
 
       await expectOk(response)
     },
-
-    async submitChangeRequest(formData: FormData): Promise<void> {
-      const response = await fetch(joinPath(baseUrl, '/api/events/change-requests'), {
-        method: 'POST',
-        body: formData,
-      })
-
-      await expectOk(response)
-    },
   }
 }

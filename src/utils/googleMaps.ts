@@ -4,10 +4,21 @@ declare global {
   interface Window {
     google?: typeof google
     __cuCalendarGoogleMapsInit?: () => void
+    gm_authFailure?: () => void
   }
 }
 
 let googleMapsPromise: Promise<typeof google> | null = null
+
+function buildAuthFailureMessage(): string {
+  const origin = window.location.origin
+
+  if (origin.startsWith('http')) {
+    return `Google Maps API key is not authorized for ${origin}/. Add ${origin}/* to the key's allowed HTTP referrers.`
+  }
+
+  return 'Google Maps API key is not authorized for this origin. Update the key\'s allowed HTTP referrers.'
+}
 
 export function loadGoogleMaps(): Promise<typeof google> {
   const loadedGoogle = window.google
@@ -36,33 +47,85 @@ export function loadGoogleMaps(): Promise<typeof google> {
     const existingScript = document.querySelector(
       'script[data-google-maps="true"]',
     ) as HTMLScriptElement | null
+    let script = existingScript
+    let settled = false
 
-    window[callbackName] = () => {
-      const loadedGoogleScript = document.querySelector(
-        'script[data-google-maps="true"]',
-      ) as HTMLScriptElement | null
-
-      if (loadedGoogleScript) {
-        loadedGoogleScript.dataset.loaded = 'true'
+    const cleanup = () => {
+      if (window[callbackName]) {
+        delete window[callbackName]
       }
-      resolve(window.google)
-      delete window[callbackName]
+
+      if (window.gm_authFailure === handleAuthFailure) {
+        delete window.gm_authFailure
+      }
+
+      existingScript?.removeEventListener('error', handleScriptError)
+      if (script) {
+        script.onerror = null
+      }
     }
 
-    if (existingScript) {
-      if (existingScript.dataset.loaded === 'true' && window.google) {
-        resolve(window.google)
-        delete window[callbackName]
+    const resolveGoogleMaps = () => {
+      if (settled) {
         return
       }
 
-      existingScript.addEventListener('error', () => {
-        reject(new Error('Google Maps failed to load.'))
-      })
+      settled = true
+
+      if (script) {
+        script.dataset.loaded = 'true'
+        delete script.dataset.authFailed
+      }
+
+      cleanup()
+      resolve(window.google)
+    }
+
+    const rejectGoogleMaps = (message: string) => {
+      if (settled) {
+        return
+      }
+
+      settled = true
+      googleMapsPromise = null
+
+      if (script) {
+        script.dataset.authFailed = 'true'
+      }
+
+      cleanup()
+      reject(new Error(message))
+    }
+
+    const handleAuthFailure = () => {
+      rejectGoogleMaps(buildAuthFailureMessage())
+    }
+
+    const handleScriptError = () => {
+      rejectGoogleMaps('Google Maps failed to load.')
+    }
+
+    window[callbackName] = () => {
+      resolveGoogleMaps()
+    }
+    window.gm_authFailure = handleAuthFailure
+
+    if (existingScript) {
+      if (existingScript.dataset.authFailed === 'true') {
+        rejectGoogleMaps(buildAuthFailureMessage())
+        return
+      }
+
+      if (existingScript.dataset.loaded === 'true' && window.google) {
+        resolveGoogleMaps()
+        return
+      }
+
+      existingScript.addEventListener('error', handleScriptError, { once: true })
       return
     }
 
-    const script = document.createElement('script')
+    script = document.createElement('script')
     script.dataset.googleMaps = 'true'
     script.async = true
     script.defer = true
@@ -71,9 +134,7 @@ export function loadGoogleMaps(): Promise<typeof google> {
       `?key=${encodeURIComponent(apiKey)}` +
       '&loading=async&v=weekly&libraries=marker' +
       `&callback=${callbackName}`
-    script.onerror = () => {
-      reject(new Error('Google Maps failed to load.'))
-    }
+    script.onerror = handleScriptError
 
     document.head.appendChild(script)
   })

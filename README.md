@@ -4,12 +4,13 @@ Public-facing Champaign-Urbana event frontend for Illini Media Company. This rep
 
 ## Features
 
-- Map-first experience with Google Maps + clustered category markers
+- Map-first experience with Google Maps and promoted featured-event markers
 - Calendar month/list views powered by React Big Calendar
+- Featured paid-event promotion across map, calendar, list, and detail surfaces
 - Bootstrap Icons-powered category system shared across map markers, calendar events, and badges
 - Shared filters via URL query state (`view`, `category`, `start`, `end`, `q`, `event`)
 - Event detail panel (title, time range, category, location, description, link/image)
-- Public event submission and event-change request forms (multipart + reCAPTCHA token)
+- Public event submission form (multipart + reCAPTCHA token)
 - Typed API adapter with mock mode for frontend-first development
 - iframe auto-resize messaging with fallback contract
 
@@ -20,7 +21,7 @@ npm install
 npm run dev
 ```
 
-App runs at `http://localhost:5173/cu-calendar/`.
+App runs at `http://localhost:5173/`.
 
 ## Environment Variables
 
@@ -29,6 +30,7 @@ Use a local `.env.local` file for environment configuration.
 - `VITE_USE_MOCK_API`: `true|false`
 - `VITE_EVENTS_API_BASE`: backend base URL (blank means same-origin)
 - `VITE_GOOGLE_MAPS_API_KEY`: browser Google Maps JavaScript API key
+  - For local dev, authorize `http://localhost:5173/*` and `http://localhost:5000/*` in the key's HTTP referrer restrictions.
 - `VITE_GOOGLE_MAPS_MAP_ID`: optional Google Maps map ID for custom styling
 - `VITE_RECAPTCHA_SITE_KEY`: public reCAPTCHA v3 site key
 
@@ -46,8 +48,6 @@ Behavior default:
   - returns string array
 - `POST /api/events/submissions`
   - multipart form request with event + submitter fields + optional image
-- `POST /api/events/change-requests`
-  - multipart form request with change request fields + optional image
 
 ### Event shape expected by frontend
 
@@ -57,6 +57,7 @@ Behavior default:
   name: string
   description: string
   categoryType: string
+  isFeatured?: boolean
   startDate: string
   endDate: string
   address: string
@@ -99,4 +100,4 @@ Also posts legacy fallback:
 
 ## GitHub Pages
 
-Vite base path is configured to `/cu-calendar/` in `vite.config.ts`.
+The dev server runs from `/`, while preview/build use the `/cu-calendar/` base path for GitHub Pages deployment.

@@ -7,7 +7,6 @@ export interface ApiClient {
   getEvents(params: EventQueryParams): Promise<RawEventPayload[]>
   getCategories(): Promise<string[]>
   submitEventRequest(payload: FormData): Promise<void>
-  submitChangeRequest(payload: FormData): Promise<void>
 }
 
 let singleton: ApiClient | null = null

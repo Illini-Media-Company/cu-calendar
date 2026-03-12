@@ -1,10 +1,12 @@
-import { useMemo, useState, type FormEvent } from 'react'
+import { useMemo, useState, type ChangeEvent, type FormEvent } from 'react'
+import {
+  IMAGE_UPLOAD_LIMIT_MESSAGE,
+  MAX_IMAGE_UPLOAD_LABEL,
+  MAX_IMAGE_UPLOAD_BYTES,
+} from '../../utils/imageUpload'
 import styles from '../../styles/App.module.css'
 
-type FormVariant = 'submission' | 'change'
-
 interface PublicEventFormProps {
-  variant: FormVariant
   categories: string[]
   loading: boolean
   successMessage: string
@@ -14,18 +16,7 @@ interface PublicEventFormProps {
   onSubmit: (payload: FormData) => Promise<boolean>
 }
 
-function headingForVariant(variant: FormVariant): string {
-  return variant === 'submission' ? 'Submit an event' : 'Request an event change'
-}
-
-function endpointHintForVariant(variant: FormVariant): string {
-  return variant === 'submission'
-    ? 'All requests are reviewed by IMC before publishing.'
-    : 'Change requests are reviewed before any event update is published.'
-}
-
 export function PublicEventForm({
-  variant,
   categories,
   loading,
   successMessage,
@@ -35,19 +26,43 @@ export function PublicEventForm({
   onSubmit,
 }: PublicEventFormProps) {
   const [formKey, setFormKey] = useState(0)
-  const title = useMemo(() => headingForVariant(variant), [variant])
+  const [localError, setLocalError] = useState('')
+  const title = useMemo(() => 'Submit an event', [])
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setLocalError('')
+    onResetStatus()
     const formElement = event.currentTarget
+    const imageInput = formElement.elements.namedItem('image_file')
     const formData = new FormData(formElement)
+    const imageFile =
+      imageInput instanceof HTMLInputElement ? imageInput.files?.[0] ?? null : null
 
-    formData.set('formType', variant)
+    if (imageFile && imageFile.size > MAX_IMAGE_UPLOAD_BYTES) {
+      setLocalError(IMAGE_UPLOAD_LIMIT_MESSAGE)
+      return
+    }
+
+    formData.set('form_type', 'submission')
     const succeeded = await onSubmit(formData)
     if (succeeded) {
       formElement.reset()
       setFormKey((previous) => previous + 1)
+      setLocalError('')
     }
+  }
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onResetStatus()
+    const imageFile = event.currentTarget.files?.[0]
+
+    if (imageFile && imageFile.size > MAX_IMAGE_UPLOAD_BYTES) {
+      setLocalError(IMAGE_UPLOAD_LIMIT_MESSAGE)
+      return
+    }
+
+    setLocalError('')
   }
 
   return (
@@ -66,24 +81,17 @@ export function PublicEventForm({
         </button>
       </div>
 
-      <p className={styles.formHint}>{endpointHintForVariant(variant)}</p>
+      <p className={styles.formHint}>All requests are reviewed by IMC before publishing.</p>
 
       <form key={formKey} className={styles.formGrid} onSubmit={handleSubmit}>
-        {variant === 'change' ? (
-          <label className={styles.formField}>
-            <span>Event UID *</span>
-            <input className={styles.input} name="eventUid" required />
-          </label>
-        ) : null}
-
         <label className={styles.formField}>
           <span>Event name *</span>
-          <input className={styles.input} name="name" required />
+          <input className={styles.input} name="title" required />
         </label>
 
         <label className={styles.formField}>
           <span>Category *</span>
-          <select className={styles.input} name="categoryType" required defaultValue="">
+          <select className={styles.input} name="event_type" required defaultValue="">
             <option value="" disabled>
               Select a category
             </option>
@@ -97,12 +105,12 @@ export function PublicEventForm({
 
         <label className={styles.formField}>
           <span>Start date and time *</span>
-          <input className={styles.input} type="datetime-local" name="startDate" required />
+          <input className={styles.input} type="datetime-local" name="start_date" required />
         </label>
 
         <label className={styles.formField}>
           <span>End date and time *</span>
-          <input className={styles.input} type="datetime-local" name="endDate" required />
+          <input className={styles.input} type="datetime-local" name="end_date" required />
         </label>
 
         <label className={styles.formField}>
@@ -120,32 +128,36 @@ export function PublicEventForm({
           <textarea className={styles.textarea} name="description" rows={4} required />
         </label>
 
-        {variant === 'change' ? (
-          <label className={`${styles.formField} ${styles.formFieldFull}`}>
-            <span>Requested changes *</span>
-            <textarea className={styles.textarea} name="requestedChanges" rows={3} required />
-          </label>
-        ) : null}
-
         <label className={styles.formField}>
           <span>Submitter name *</span>
-          <input className={styles.input} name="submitterName" required />
+          <input className={styles.input} name="submitter_name" required />
         </label>
 
         <label className={styles.formField}>
           <span>Email *</span>
-          <input className={styles.input} type="email" name="submitterEmail" required />
+          <input className={styles.input} type="email" name="submitter_email" required />
         </label>
 
         <label className={styles.formField}>
           <span>Organization *</span>
-          <input className={styles.input} name="organization" required />
+          <input className={styles.input} name="company_name" required />
         </label>
 
-        <label className={styles.formField}>
-          <span>Image upload</span>
-          <input className={styles.input} type="file" name="imageFile" accept="image/*" />
-        </label>
+        <div className={styles.formField}>
+          <label htmlFor="image_file">Image upload</label>
+          <input
+            id="image_file"
+            className={styles.input}
+            type="file"
+            name="image_file"
+            accept="image/*"
+            onChange={handleImageChange}
+            aria-describedby="imageFileHint"
+          />
+          <span id="imageFileHint" className={styles.formFieldHint}>
+            Max file size: {MAX_IMAGE_UPLOAD_LABEL}
+          </span>
+        </div>
 
         <div className={`${styles.formField} ${styles.formFieldFull}`}>
           <button className={`button-primary ${styles.primaryButton}`} type="submit" disabled={loading}>
@@ -154,7 +166,9 @@ export function PublicEventForm({
         </div>
 
         {successMessage ? <p className={styles.successMessage}>{successMessage}</p> : null}
-        {errorMessage ? <p className={styles.errorMessage}>{errorMessage}</p> : null}
+        {localError || errorMessage ? (
+          <p className={styles.errorMessage}>{localError || errorMessage}</p>
+        ) : null}
       </form>
     </section>
   )

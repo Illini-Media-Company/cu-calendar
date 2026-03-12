@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import type { CalendarEvent } from '../types/events'
 import { formatCentralRange } from '../utils/timezone'
 import { CategoryBadge } from './CategoryBadge'
+import { FeaturedBadge } from './FeaturedBadge'
 import styles from '../styles/App.module.css'
 
 interface EventListProps {
@@ -21,15 +22,25 @@ export function EventList({ events, selectedEventUid, onSelectEvent }: EventList
         <li key={event.uid}>
           <button
             type="button"
-            className={clsx(styles.eventCard, selectedEventUid === event.uid && styles.eventCardActive)}
+            className={clsx(
+              styles.eventCard,
+              event.highlight && styles.eventCardFeatured,
+              selectedEventUid === event.uid && styles.eventCardActive,
+            )}
             onClick={() => onSelectEvent(event.uid)}
+            title={event.title}
           >
             <div className={styles.eventCardHeader}>
-              <h3>{event.name}</h3>
-              <CategoryBadge category={event.categoryType} />
+              <div className={styles.eventCardTitleGroup}>
+                <h3 className={styles.eventCardTitle}>{event.title}</h3>
+              </div>
+              <div className={styles.eventCardBadges}>
+                {event.highlight ? <FeaturedBadge compact className={styles.eventListFeaturedBadge} /> : null}
+                <CategoryBadge category={event.event_type} className={styles.eventListCategoryBadge} />
+              </div>
             </div>
-            <p>{formatCentralRange(event.startDate, event.endDate)}</p>
-            <p>{event.address}</p>
+            <p className={styles.eventCardText}>{formatCentralRange(event.start_date, event.end_date)}</p>
+            <p className={styles.eventCardText}>{event.address}</p>
             {typeof event.lat !== 'number' || typeof event.long !== 'number' ? (
               <p className={styles.eventMeta}>No map pin for this event yet.</p>
             ) : null}

@@ -4,7 +4,7 @@ import { createApiClient } from '../api/client'
 import type { CalendarEvent } from '../types/events'
 import type { QueryState } from '../types/query'
 import { dedupeEvents, normalizeEvent } from '../utils/eventNormalization'
-import { filterEventsByQuery, sortEventsByStartDate } from '../utils/eventFilters'
+import { filterEventsByQuery, sortEventsForDisplay } from '../utils/eventFilters'
 
 interface EventsDataState {
   loading: boolean
@@ -57,7 +57,7 @@ export function useEventsData(queryState: QueryState) {
 
         const deduped = dedupeEvents(normalized)
         const filtered = filterEventsByQuery(deduped, { category, start, end, q })
-        const sorted = sortEventsByStartDate(filtered)
+        const sorted = sortEventsForDisplay(filtered)
 
         if (!disposed) {
           setEventsState((previous) => ({

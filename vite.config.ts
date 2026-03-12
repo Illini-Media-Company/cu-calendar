@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 
-export default defineConfig({
-  base: '/cu-calendar/',
+export default defineConfig(({ command, isPreview }) => ({
+  base: command === 'serve' && !isPreview ? '/' : '/cu-calendar/',
   plugins: [react()],
   test: {
     environment: 'jsdom',
@@ -14,4 +14,4 @@ export default defineConfig({
       reporter: ['text', 'lcov'],
     },
   },
-})
+}))
