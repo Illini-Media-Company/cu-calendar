@@ -65,6 +65,8 @@ function App() {
     submitEventRequest,
   ])
 
+  const eventCountLabel = `${events.length} ${events.length === 1 ? 'event' : 'events'} loaded`
+
   return (
     <main className={styles.appShell} ref={containerRef}>
       <ShellHeader />
@@ -76,7 +78,7 @@ function App() {
       />
 
       <section className={styles.statusRow} aria-live="polite">
-        <p>{loading ? 'Loading events...' : `${events.length} events loaded`}</p>
+        <p>{loading ? 'Loading events...' : eventCountLabel}</p>
         {error ? <p className={styles.errorMessage}>Error: {error}</p> : null}
       </section>
 

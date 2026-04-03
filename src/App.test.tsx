@@ -91,6 +91,7 @@ describe('App integration shell', () => {
     render(<App />)
 
     expect(screen.getByText('MapViewMock')).toBeInTheDocument()
+    expect(screen.getByText('1 event loaded')).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Calendar' }))
     expect(updateQueryState).toHaveBeenCalledWith({ view: 'calendar' })

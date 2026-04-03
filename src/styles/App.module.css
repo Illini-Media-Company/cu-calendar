@@ -39,9 +39,11 @@
   gap: 0.55rem;
 }
 
-.imcMark {
-  color: var(--main-accent-color);
-  font-size: 1.55rem;
+.titleMark {
+  width: 1.7rem;
+  height: 1.7rem;
+  display: block;
+  flex: 0 0 auto;
 }
 
 .subtitle {

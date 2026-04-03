@@ -431,6 +431,7 @@ export function MapView({ events, selectedEventUid, onSelectEvent }: MapViewProp
   const clustererRef = useRef<MarkerClusterer | null>(null)
   const markerByIdRef = useRef<Map<string, google.maps.Marker>>(new Map())
   const eventByMarkerRef = useRef<WeakMap<object, CalendarEvent>>(new WeakMap())
+  const [isMapReady, setIsMapReady] = useState(false)
   const [mapError, setMapError] = useState('')
 
   const handleMarkerSelectEvent = useEffectEvent((uid: string) => {
@@ -529,9 +530,11 @@ export function MapView({ events, selectedEventUid, onSelectEvent }: MapViewProp
           streetViewControl: false,
         })
         infoWindowRef.current = new mapsLibrary.InfoWindow()
+        setIsMapReady(true)
         setMapError('')
       } catch (error) {
         if (!cancelled) {
+          setIsMapReady(false)
           setMapError(
             error instanceof Error
               ? error.message
@@ -545,6 +548,9 @@ export function MapView({ events, selectedEventUid, onSelectEvent }: MapViewProp
 
     return () => {
       cancelled = true
+      infoWindowRef.current?.close()
+      infoWindowRef.current = null
+      mapRef.current = null
     }
   }, [])
 
@@ -554,7 +560,7 @@ export function MapView({ events, selectedEventUid, onSelectEvent }: MapViewProp
     const clusterer = clustererRef.current
     const markerById = markerByIdRef.current
 
-    if (!map || !infoWindow) {
+    if (!isMapReady || !map || !infoWindow) {
       return
     }
 
@@ -605,10 +611,10 @@ export function MapView({ events, selectedEventUid, onSelectEvent }: MapViewProp
       markerById.clear()
       eventByMarkerRef.current = new WeakMap()
     }
-  }, [clusterRenderer, eventsWithCoordinates, selectedEventUid])
+  }, [clusterRenderer, eventsWithCoordinates, isMapReady, selectedEventUid])
 
   useEffect(() => {
-    if (!mapRef.current || !selectedEvent) {
+    if (!isMapReady || !mapRef.current || !selectedEvent) {
       return
     }
 
@@ -616,7 +622,7 @@ export function MapView({ events, selectedEventUid, onSelectEvent }: MapViewProp
       lat: selectedEvent.lat as number,
       lng: selectedEvent.long as number,
     })
-  }, [selectedEvent])
+  }, [isMapReady, selectedEvent])
 
   const handleMapKeyDown = (event: ReactKeyboardEvent<HTMLElement>) => {
     if (

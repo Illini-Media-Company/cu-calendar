@@ -2,13 +2,14 @@ import styles from '../styles/App.module.css'
 
 export function ShellHeader() {
   const logoSrc = `${import.meta.env.BASE_URL}logo_IMC.svg`
+  const calendarMarkSrc = `${import.meta.env.BASE_URL}icons/cu-calendar-mark.svg`
 
   return (
     <header className={styles.header}>
       <div>
         <p className={styles.kicker}>Illini Media Company</p>
         <div className={styles.titleRow}>
-          <i className={`imc imc-mark ${styles.imcMark}`} aria-hidden="true"></i>
+          <img className={styles.titleMark} src={calendarMarkSrc} alt="" />
           <h1>CU Calendar</h1>
         </div>
         <p className={styles.subtitle}>
