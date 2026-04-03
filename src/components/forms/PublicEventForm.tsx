@@ -57,22 +57,21 @@ export function PublicEventForm({
   onResetStatus,
   onSubmit,
 }: PublicEventFormProps) {
+  const shouldRequireGoogleAddress = Boolean(APP_CONFIG.googleMapsApiKey)
   const [formKey, setFormKey] = useState(0)
   const [localError, setLocalError] = useState('')
   const [selectedPlace, setSelectedPlace] = useState<SelectedPlace | null>(null)
   const [addressAutocompleteStatus, setAddressAutocompleteStatus] =
     useState<AddressAutocompleteStatus>(
-      APP_CONFIG.googleMapsApiKey ? 'loading' : 'disabled',
+      shouldRequireGoogleAddress ? 'loading' : 'disabled',
     )
   const addressInputRef = useRef<HTMLInputElement | null>(null)
   const title = useMemo(() => 'Submit an event', [])
-  const shouldRequireGoogleAddress = Boolean(APP_CONFIG.googleMapsApiKey)
 
   useEffect(() => {
     const addressInput = addressInputRef.current
 
     if (!shouldRequireGoogleAddress) {
-      setAddressAutocompleteStatus('disabled')
       return
     }
 
@@ -84,8 +83,6 @@ export function PublicEventForm({
     let placeChangedListener: google.maps.MapsEventListener | null = null
 
     async function initializeAddressAutocomplete() {
-      setAddressAutocompleteStatus('loading')
-
       try {
         const googleApi = await loadGoogleMaps()
         const placesLibrary =
@@ -126,7 +123,7 @@ export function PublicEventForm({
         })
 
         setAddressAutocompleteStatus('ready')
-      } catch (error) {
+      } catch {
         if (!cancelled) {
           setAddressAutocompleteStatus('error')
         }
@@ -186,6 +183,9 @@ export function PublicEventForm({
     const succeeded = await onSubmit(formData)
     if (succeeded) {
       formElement.reset()
+      if (shouldRequireGoogleAddress) {
+        setAddressAutocompleteStatus('loading')
+      }
       setFormKey((previous) => previous + 1)
       setSelectedPlace(null)
       setLocalError('')

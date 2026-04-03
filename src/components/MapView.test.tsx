@@ -57,17 +57,17 @@ class MockMarker {
   setMap = vi.fn()
   addListener = vi.fn()
 
-  constructor(_options: unknown) {
+  constructor() {
     // Marker construction side effects are captured by clusterer marker counts.
   }
 }
 
 class MockSize {
-  constructor(_width: number, _height: number) {}
+  constructor() {}
 }
 
 class MockPoint {
-  constructor(_x: number, _y: number) {}
+  constructor() {}
 }
 
 class MockLatLng {

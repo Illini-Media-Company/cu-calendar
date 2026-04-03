@@ -11,13 +11,10 @@ const mockedPlaces = vi.hoisted(() => {
   const listenerRemove = vi.fn()
   const importLibrary = vi.fn().mockResolvedValue({
     Autocomplete: class {
-      constructor(
-        _input: HTMLInputElement,
-        _options: { componentRestrictions: { country: string }; fields: string[] },
-      ) {}
+      constructor() {}
 
-      addListener(_eventName: string, callback: () => void) {
-        placeChangedCallback = callback
+      addListener(...args: [string, () => void]) {
+        placeChangedCallback = args[1]
         return { remove: listenerRemove }
       }
 
