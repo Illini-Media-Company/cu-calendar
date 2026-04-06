@@ -2,6 +2,8 @@
 
 Public-facing Champaign-Urbana event frontend for Illini Media Company. This repo provides an iframe-friendly React + Vite app with synchronized map + calendar views and public event request forms.
 
+**Publicly listed at [https://cu-calendar.com](https://cu-calendar.com)**
+
 ## Features
 
 - Map-first experience with Google Maps and promoted featured-event markers
@@ -28,7 +30,6 @@ App runs at `http://localhost:5173/`.
 Use a local `.env.local` file for environment configuration.
 
 - `VITE_USE_MOCK_API`: `true|false`
-- `VITE_EVENTS_API_BASE`: backend base URL (blank means same-origin)
 - `VITE_GOOGLE_MAPS_API_KEY`: browser Google Maps JavaScript API key
   - For local dev, authorize `http://localhost:5173/*` and `http://localhost:5000/*` in the key's HTTP referrer restrictions.
 - `VITE_GOOGLE_MAPS_MAP_ID`: optional Google Maps map ID for custom styling
@@ -100,4 +101,4 @@ Also posts legacy fallback:
 
 ## GitHub Pages
 
-The dev server runs from `/`, while preview/build use the `/cu-calendar/` base path for GitHub Pages deployment.
+Pushing to `main` automatically reversions with `release-please` as determined by semantic versioning (`fix:`, `feat:`, `feat!:`, etc.). Upon a new release, a GitHub action will automatically deploy to GitHub pages at [https://cu-calendar.com](https://cu-calendar.com).
