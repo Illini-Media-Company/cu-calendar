@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { FilterToolbar } from './components/FilterToolbar'
 import { ShellHeader } from './components/ShellHeader'
 import { MapView } from './components/MapView'
@@ -13,6 +13,9 @@ import { useIframeAutoResize } from './hooks/useIframeAutoResize'
 import { useSubmissionActions } from './hooks/useSubmissionActions'
 import type { QueryState } from './types/query'
 import styles from './styles/App.module.css'
+import ReactGA from 'react-ga4'
+
+ReactGA.initialize('G-NCYBJQY1ST')
 
 function shouldClearEventSelection(patch: Partial<QueryState>): boolean {
   return ['category', 'start', 'end', 'q'].some((key) => key in patch)
@@ -20,6 +23,7 @@ function shouldClearEventSelection(patch: Partial<QueryState>): boolean {
 
 function App() {
   const containerRef = useRef<HTMLElement | null>(null)
+  const isInitialCalendarMode = useRef(true)
   const [calendarMode, setCalendarMode] = useState<CalendarMode>('month')
   const [isSubmissionFormOpen, setIsSubmissionFormOpen] = useState(false)
 
@@ -30,7 +34,82 @@ function App() {
 
   useIframeAutoResize(containerRef)
 
+  useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: window.location.pathname + window.location.search, title: 'CU Calendar App' })
+  }, [])
+
+  useEffect(() => {
+    ReactGA.event({
+      category: 'View Mode',
+      action: 'Changed View Mode',
+      label: queryState.view === 'map' ? 'Map' : 'Calendar'
+    })
+  }, [queryState.view])
+
+  useEffect(() => {
+    if (queryState.event) {
+      ReactGA.event({
+        category: 'Event',
+        action: 'Viewed Event Details',
+        label: queryState.event
+      })
+    }
+  }, [queryState.event])
+
+  useEffect(() => {
+    if (submissionState.success) {
+      ReactGA.event({
+        category: 'Submission',
+        action: 'Submit Success'
+      })
+    } else if (submissionState.error) {
+      ReactGA.event({
+        category: 'Submission',
+        action: 'Submit Error',
+        label: submissionState.error
+      })
+    }
+  }, [submissionState.success, submissionState.error])
+
+  useEffect(() => {
+    if (error) {
+      ReactGA.event({
+        category: 'Error',
+        action: 'Data Fetch Error',
+        label: error
+      })
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (isInitialCalendarMode.current) {
+      isInitialCalendarMode.current = false
+      return
+    }
+    ReactGA.event({
+      category: 'View Mode',
+      action: 'Changed Calendar Mode',
+      label: calendarMode
+    })
+  }, [calendarMode])
+
   const handleQueryChange = (patch: Partial<QueryState>) => {
+    if (patch.category !== undefined) {
+      ReactGA.event({
+        category: 'Filter',
+        action: 'Filtered by Category',
+        label: patch.category
+      })
+    }
+    
+    if (patch.q !== undefined) {
+      ReactGA.event({
+        category: 'Filter',
+        action: 'Used Search',
+        label: patch.q
+      })
+    }
+
     if (shouldClearEventSelection(patch) && !('event' in patch)) {
       updateQueryState({ ...patch, event: '' })
       return
@@ -117,6 +196,10 @@ function App() {
           type="button"
           className={`button-primary ${styles.primaryButton}`}
           onClick={() => {
+            ReactGA.event({
+              category: 'Submission',
+              action: 'Opened Submission Form'
+            })
             resetSubmissionState()
             setIsSubmissionFormOpen(true)
           }}
