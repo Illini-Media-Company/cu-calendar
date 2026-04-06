@@ -9,13 +9,12 @@
 .header {
   background: linear-gradient(
     128deg,
-    var(--illini-blue-700) 0%,
-    var(--illini-blue-500) 62%,
-    var(--imc-orange-600) 100%
+    var(--gray-800) 0%,
+    var(--gray-400) 62%,
+    var(--imc-orange-500) 100%
   );
   color: var(--main-bg-color);
   border-radius: var(--main-border-radius);
-  border: 1px solid color-mix(in srgb, var(--illini-blue-300) 35%, transparent);
   padding: 1rem 1.2rem;
   display: flex;
   justify-content: space-between;
@@ -27,10 +26,10 @@
 .kicker {
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.72rem;
   margin-bottom: 0.3rem;
-  color: var(--imc-orange-100);
+  color: var(--white);
 }
 
 .titleRow {
@@ -63,7 +62,7 @@
   box-shadow: var(--input-box-shadow);
   padding: 0.35rem 0.55rem;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .brandLogo {
@@ -102,7 +101,7 @@
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--gray-700);
 }
 
@@ -166,7 +165,7 @@
 .secondaryButton {
   padding: 0.25rem 1rem;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .primaryButton {
@@ -182,9 +181,9 @@
   justify-content: space-between;
   gap: 1rem;
   align-items: center;
-  background: linear-gradient(180deg, var(--illini-blue-50), var(--main-bg-color));
-  border: 1px solid var(--illini-blue-100);
   border-radius: var(--main-border-radius);
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--main-box-shadow);
   padding: 0.65rem 0.85rem;
 }
 
@@ -425,7 +424,7 @@
   padding: 0.2rem 0.45rem;
   border-radius: 999px;
   font-size: 0.74rem;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .categoryGlyph {
@@ -476,7 +475,7 @@
 .primaryLink,
 .inlineLinkButton {
   color: var(--main-accent-color-darkened);
-  font-weight: 700;
+  font-weight: 500;
   text-decoration: none;
 }
 
@@ -554,12 +553,17 @@
 
 .errorMessage {
   color: var(--red-500);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .successMessage {
   color: var(--green-500);
-  font-weight: 600;
+  font-weight: 500;
+}
+
+.siteFooter {
+  text-align: center;
+  margin-top: 1rem;;
 }
 
 @media (max-width: 1000px) {

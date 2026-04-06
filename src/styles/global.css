@@ -11,11 +11,11 @@
 }
 
 :root {
-  --bs-font-sans-serif: 'Futura PT Local', futura-pt, Futura, system-ui, sans-serif;
+  --bs-font-sans-serif: futura-pt, 'Futura PT Local', Futura, system-ui, sans-serif;
   --bs-body-font-weight: 300;
   --bs-body-color: var(--gray-900);
 
-  font-family: 'Futura PT Local', futura-pt, Futura, system-ui, sans-serif;
+  font-family: futura-pt, 'Futura PT Local', Futura, system-ui, sans-serif;
   font-weight: 300;
   font-style: normal;
 
@@ -250,7 +250,7 @@
 
 body {
   margin: 0;
-  font-family: 'Futura PT Local', futura-pt, Futura, system-ui, sans-serif;
+  font-family: futura-pt, 'Futura PT Local', Futura, system-ui, sans-serif;
   font-weight: 300;
   color: var(--main-text-color);
   background: var(--main-bg-color);
@@ -263,7 +263,7 @@ a {
 }
 
 p {
-  font-family: 'Futura PT Local', futura-pt, Futura, sans-serif;
+  font-family: futura-pt, 'Futura PT Local', Futura, sans-serif;
   font-weight: 300;
   font-style: normal;
   font-size: 1rem;
@@ -272,7 +272,7 @@ p {
 }
 
 h1 {
-  font-family: 'Futura PT Local', futura-pt, Futura, sans-serif;
+  font-family: futura-pt, 'Futura PT Local', Futura, sans-serif;
   font-weight: 500;
   font-style: normal;
   font-size: 3rem;
@@ -280,7 +280,7 @@ h1 {
 }
 
 h2 {
-  font-family: 'Futura PT Local', futura-pt, Futura, sans-serif;
+  font-family: futura-pt, 'Futura PT Local', Futura, sans-serif;
   font-weight: 500;
   font-style: normal;
   font-size: 2rem;
@@ -288,7 +288,7 @@ h2 {
 }
 
 h3 {
-  font-family: 'Futura PT Local', futura-pt, Futura, sans-serif;
+  font-family: futura-pt, 'Futura PT Local', Futura, sans-serif;
   font-weight: 500;
   font-style: normal;
   font-size: 1.5rem;
@@ -296,7 +296,7 @@ h3 {
 }
 
 h4 {
-  font-family: 'Futura PT Local', futura-pt, Futura, sans-serif;
+  font-family: futura-pt, 'Futura PT Local', Futura, sans-serif;
   font-weight: 500;
   font-style: normal;
   font-size: 1rem;
@@ -436,7 +436,7 @@ textarea {
   background: var(--info-surface, var(--main-lt-gray-color));
   color: var(--info-accent, var(--main-text-color));
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .cu-cluster-infowindow {
@@ -447,7 +447,7 @@ textarea {
 .cu-cluster-infowindow__eyebrow {
   color: var(--gray-600);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -473,7 +473,7 @@ textarea {
 .cu-cluster-infowindow__position {
   text-align: center;
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .cu-cluster-infowindow__navButton,
@@ -483,7 +483,7 @@ textarea {
   background: var(--white);
   color: var(--main-text-color);
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1;
   cursor: pointer;
   transition:
@@ -535,7 +535,7 @@ textarea {
   border: 1px solid color-mix(in srgb, var(--featured-accent) 55%, var(--white));
   box-shadow: 0 0.2rem 0.45rem color-mix(in srgb, var(--featured-shadow) 40%, transparent);
   font-size: 0.74rem;
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
@@ -553,7 +553,7 @@ textarea {
 .gm-style,
 .gm-style button,
 .gm-style input {
-  font-family: 'Futura PT Local', futura-pt, Futura, system-ui, sans-serif;
+  font-family: futura-pt, 'Futura PT Local', Futura, system-ui, sans-serif;
 }
 
 .rbc-calendar,

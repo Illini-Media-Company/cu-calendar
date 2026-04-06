@@ -126,6 +126,15 @@ function App() {
       </section>
 
       {activeForm ? <div className={styles.formOverlay}>{activeForm}</div> : null}
+
+      <footer className={styles.siteFooter}>
+        <span>
+            Illini Media Console || © 2026&nbsp;
+            <a href="http://illinimedia.org/" target="_blank" rel="noopener noreferrer">
+              Illini Media Company
+            </a>
+        </span>
+      </footer>
     </main>
   )
 }
